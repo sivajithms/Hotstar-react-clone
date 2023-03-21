@@ -42,7 +42,7 @@ export default Details
 
 const Container = styled.div`
     min-height: calc(100vh - 70px);
-    // padding: 0 calc(3.5vw + 5px);
+    padding: 0 calc(3.5vw + 5px);
     position: relative;
 `
 
@@ -56,7 +56,7 @@ const Background = styled.div`
     opacity: 0.8;
 
     img {
-        width: 100%
+        width: 100%;
         height: 100%;
         object-fit: cover;
     }
@@ -67,6 +67,7 @@ const ImageTitle = styled.div`
     min-heigth: 170px;
     width: 35vw;
     min-width: 200px;
+    margin-top: 60px;
 
     img {
         width: 100%;
@@ -143,6 +144,7 @@ const Description = styled.div`
     line-height: 1.4;
     font-size: 20px;
     marigin-top: 16px;
+    max-width: 700px;
     color: rgb(249, 249, 249);
 
 `
