@@ -39,6 +39,9 @@ function Header() {
 export default Header
 
 const Nav = styled.nav`
+    top: 0;
+    left: 0;
+    right: 0;
     height: 70px;
     background: black;
     display: flex;
