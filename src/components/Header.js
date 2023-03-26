@@ -114,7 +114,17 @@ const Nav = styled.nav`
   left: 0;
   right: 0;
   height: 70px;
-  background-color: #090b13;
+  background-color: 
+  #090b13;
+   /* ${props => {
+    auth.onAuthStateChanged(async (user)=>{    
+      if(!user){
+        return "transparent";
+      }else{
+        return "'yellow';";
+      }
+    })
+  }}; */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -153,6 +163,7 @@ const NavMenu = styled.div`
     display: flex;
     align-items: center;
     padding: 0 12px;
+    cursor: pointer;
 
     img {
       height: 20px;
@@ -203,13 +214,14 @@ const NavMenu = styled.div`
 `;
 
 const Login = styled.a`
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0);
   padding: 8px 16px;
   text-transform: uppercase;
   letter-spacing: 1.5px;
   border: 1px solid #f9f9f9;
   border-radius: 4px;
   transition: all 0.2s ease 0s;
+  cursor: pointer;
 
   &:hover {
     background-color: #f9f9f9;

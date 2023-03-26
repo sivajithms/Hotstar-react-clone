@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react'
-import styled from 'styled-components'
-import ImgSlider from './ImgSlider'
-import Movies from './Movies'
-import Viewers from './Viewers'
+import React, { useEffect } from "react";
+import styled from "styled-components";
+import ImgSlider from "./ImgSlider";
+import Movies from "./Movies";
+import { db } from "../firebase";
+import Viewers from "./Viewers";
 import {
   getFirestore,
   collection,
@@ -11,14 +12,34 @@ import {
   onSnapshot,
   where,
   getDocs,
-  addDoc
+  addDoc,
 } from "firebase/firestore";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUserName } from "../features/users/userSlice";
+import { setMovies } from "../features/movies/movieSlice";
 
-function Home() {
-  useEffect(()=>{
+function Home(props) {
+  const dispatch = useDispatch();
+  const userName = useSelector(selectUserName);
+  let recommends = [];
 
+  useEffect(() => {
+    console.log("hello");
+    getDocs(collection(db, "movies")).then((querySnapshot) => {
+      querySnapshot.docs.map((doc) => {
+        // console.log(recommends);
+        recommends = [...recommends, { id: doc.id, ...doc.data() }];
+        dispatch(
+        setMovies({
+          recommend: recommends
+        })
+      )
       })
-  
+      
+    });
+  },[userName]);
+
+ 
 
 
   return (
@@ -27,25 +48,25 @@ function Home() {
       <Viewers />
       <Movies />
     </Container>
-  )
+  );
 }
 
-export default Home
-
+export default Home;
 const Container = styled.main`
-  min-height: calc(100vh - 70px);
-  padding: 0 calc(3.5vw + 5px);
   position: relative;
+  min-height: calc(100vh - 250px);
   overflow-x: hidden;
+  display: block;
+  top: 72px;
+  padding: 0 calc(3.5vw + 5px);
 
-  &:before{
-    background: url("/images/home-background.png") center center  / cover no-repeat fixed;
+  &:after {
+    background: url("/images/home-background.png") center center / cover
+      no-repeat fixed;
     content: "";
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0px;
+    opacity: 1;
     z-index: -1;
   }
-`
+`;
