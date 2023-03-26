@@ -1,15 +1,42 @@
-import React from 'react'
+import { collection, doc, getDoc } from 'firebase/firestore';
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components'
+import { db } from '../firebase';
 
-function Details() {
+function Details(props) {
+  const { id } = useParams()
+  console.log(id);
+  const [detailData, setDetailData] = useState({});
+  console.log(detailData.titleImg);
+
+
+  useEffect(() => {
+    async function fetchMovieData() {
+      try {
+        const docRef = doc(db, "movies", id); 
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const movieData = docSnap.data(); 
+          setDetailData(movieData);
+          console.log("Document data:", detailData);
+        } else {
+          console.log("No such document!");
+        }
+      } catch (error) {
+        console.error("Error fetching  data:", error);
+      }
+    }
+    fetchMovieData();
+  }, [id]);
+
   return (
     <Container>
       <Background>
-        <img src="https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/4F39B7E16726ECF419DD7C49E011DD95099AA20A962B0B10AA1881A70661CE45/scale?width=1440&aspectRatio=1.78&format=jpeg" />
+        <img src={detailData.backgroundImg} />
       </Background>
       <ImageTitle>
-        <img src="https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/D7AEE1F05D10FC37C873176AAA26F777FC1B71E7A6563F36C6B1B497CAB1CEC2/scale?width=1440&aspectRatio=1.78" />
-      </ImageTitle>
+      <img alt={detailData.title} src={detailData.titleImg} />      </ImageTitle>
       <Controls>
         <PlayButton>
             <img src="/images/play-icon-black.png" />
@@ -28,11 +55,10 @@ function Details() {
 
       </Controls>
       <Subtile>
-        2009 . 7m . family, fantasy, kids, animation
+        {detailData.subTitle}
       </Subtile>
       <Description>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos, cupiditate? Maiores necessitatibus labore nisi alias magni quaerat reiciendis quia quisquam doloremque quidem explicabo distinctio temporibus corrupti error saepe, porro iure.
-
+        {detailData.description}
       </Description>
     </Container>
   )
@@ -64,7 +90,7 @@ const Background = styled.div`
 
 const ImageTitle = styled.div`
     height: 30vh;
-    min-heigth: 170px;
+    min-height: 170px;
     width: 35vw;
     min-width: 200px;
     margin-top: 60px;
@@ -143,7 +169,7 @@ const Subtile = styled.div`
 const Description = styled.div`
     line-height: 1.4;
     font-size: 20px;
-    marigin-top: 16px;
+    margin-top: 16px;
     max-width: 700px;
     color: rgb(249, 249, 249);
 
