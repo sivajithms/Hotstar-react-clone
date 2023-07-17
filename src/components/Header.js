@@ -107,30 +107,23 @@ function Header(props) {
 }
 
 export default Header
-
 const Nav = styled.nav`
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   height: 70px;
-  background-color: 
-  #090b13;
-   /* ${props => {
-    auth.onAuthStateChanged(async (user)=>{    
-      if(!user){
-        return "transparent";
-      }else{
-        return "'yellow';";
-      }
-    })
-  }}; */
+  background-color: #090b13;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 36px;
+  padding: 0 20px;
   letter-spacing: 16px;
   z-index: 3;
+
+  @media (min-width: 768px) {
+    padding: 0 36px;
+  }
 `;
 
 const Logo = styled.a`
@@ -158,6 +151,10 @@ const NavMenu = styled.div`
   position: relative;
   margin-right: auto;
   margin-left: 25px;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 
   a {
     display: flex;
@@ -207,10 +204,6 @@ const NavMenu = styled.div`
       }
     }
   }
-
-  /* @media (max-width: 768px) {
-    display: none;
-  } */
 `;
 
 const Login = styled.a`
@@ -247,6 +240,24 @@ const DropDown = styled.div`
   letter-spacing: 3px;
   width: 100px;
   opacity: 0;
+
+  @media (max-width: 768px) {
+    top: 56px;
+    right: 16px;
+    width: 120px;
+  }
+
+  @media (max-width: 480px) {
+    top: 64px;
+    right: 8px;
+    width: 140px;
+    font-size: 12px;
+
+    ${UserImg} {
+      width: 36px;
+      height: 36px;
+    }
+  }
 `;
 
 const SignOut = styled.div`
@@ -268,6 +279,16 @@ const SignOut = styled.div`
     ${DropDown} {
       opacity: 1;
       transition-duration: 1s;
+    }
+  }
+
+  @media (max-width: 480px) {
+    height: 40px;
+    width: 40px;
+
+    ${UserImg} {
+      width: 32px;
+      height: 32px;
     }
   }
 `;

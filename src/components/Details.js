@@ -1,56 +1,45 @@
-import { collection, doc, getDoc } from 'firebase/firestore';
+// import { collection, doc, getDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components'
-import { db } from '../firebase';
+// import { db } from '../firebase';
+import { useSelector } from 'react-redux';
+import { selectRecommend } from '../features/movies/movieSlice';
 
 function Details(props) {
   const { id } = useParams()
-  console.log(id);
   const [detailData, setDetailData] = useState({});
-  console.log(detailData.titleImg);
-
+  const data = useSelector(selectRecommend);
 
   useEffect(() => {
     async function fetchMovieData() {
-      try {
-        const docRef = doc(db, "movies", id); 
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          const movieData = docSnap.data(); 
-          setDetailData(movieData);
-          console.log("Document data:", detailData);
-        } else {
-          console.log("No such document!");
-        }
-      } catch (error) {
-        console.error("Error fetching  data:", error);
-      }
+      const filteredData = data.filter((obj) => obj.id === parseInt(id))
+      setDetailData(filteredData[0])
     }
     fetchMovieData();
-  }, [id]);
+  }, [id, data]);
 
   return (
     <Container>
       <Background>
-        <img src={detailData.backgroundImg} />
+        <img alt={detailData.title} src={detailData.backgroundImg} />
       </Background>
       <ImageTitle>
-      <img alt={detailData.title} src={detailData.titleImg} />      </ImageTitle>
+        <img alt={detailData.title} src={detailData.titleImg} />      </ImageTitle>
       <Controls>
         <PlayButton>
-            <img src="/images/play-icon-black.png" />
-            <span>PLAY</span>
+          <img src="/images/play-icon-black.png" alt='play' />
+          <span>PLAY</span>
         </PlayButton>
         <TrailerButton>
-            <img src="/images/play-icon-white.png" />
-            <span>Trailer</span>
+          <img src="/images/play-icon-white.png" alt='play' />
+          <span>Trailer</span>
         </TrailerButton>
         <AddButton>
-            <span>+</span>
+          <span>+</span>
         </AddButton>
         <GroupWatchButton>
-        <img src="/images/group-icon.png" />
+          <img src="/images/group-icon.png" alt='group' />
         </GroupWatchButton>
 
       </Controls>
