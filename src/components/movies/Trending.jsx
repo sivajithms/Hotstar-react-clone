@@ -6,10 +6,9 @@ import { selectRecommend } from '../../features/movies/movieSlice'
 
 function Trending(props) {
   const data = useSelector(selectRecommend)
-  console.log(data.type);
   return (
     <Container>
-    <h4>Recommended for you</h4>
+    <h4>Trending</h4>
     <Content>
   {data && 
     data
